@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -e
+
+
+if [ "$1" = "configure" ]
+then
+    inidir=/etc/php5/mods-available
+
+    if [ -e /usr/share/php5/php5-maintscript-helper ]
+    then
+	    . /usr/share/php5/php5-maintscript-helper
+
+        dsoname=inotify
+	    inifile=${dsoname}.ini
+
+        echo "extension=inotify.so" > $inidir/$inifile
+
+	    php5_invoke enmod ALL ${dsoname}
+    fi
+fi
+
+exit 0
