@@ -5,7 +5,7 @@ Little script to ease the installation of the inotify extension on Debian.
 
 ```sh
 # Install the dependencies
-sudo aptitude install tar curl php-dev checkinstall
+sudo aptitude install tar curl php5-dev checkinstall
 
 # build...
 cd /path/to/php-inotify-installer

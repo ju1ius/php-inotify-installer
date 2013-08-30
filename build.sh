@@ -11,13 +11,14 @@ rm -r inotify-*/
 # if we don't have a source tarball, download it
 if [[ ! -f $(echo inotify-*.tgz) ]]
 then
+    echo "Downloading latest release..."
     curl -J -O http://pecl.php.net/get/inotify
     [[ $? -ne 0 ]] && exit 1
 fi
 
 src_tar=$(find . -maxdepth 1 -name "inotify-*.tgz" | sort -Vr | head -1)
 
-# extract source tarball
+echo "Extracting source traball..."
 tar -zxvf "$src_tar"
 
 src_dir=$(find . -maxdepth 1 -type d -name "inotify-*" | sort -Vr | head -1)
@@ -25,7 +26,7 @@ src_dir=$(find . -maxdepth 1 -type d -name "inotify-*" | sort -Vr | head -1)
 # copy post{install,remove} scripts
 cp *-pak $src_dir
 
-# build everything
+echo "Building extension..."
 pushd "$src_dir"
 
 phpize
@@ -39,6 +40,8 @@ make
 make test
 [[ $? -ne 0 ]] && exit 4
 
+
+echo "Will now build debian package..."
 sudo checkinstall \
     --install=no \
     --pkgname php5-inotify \
